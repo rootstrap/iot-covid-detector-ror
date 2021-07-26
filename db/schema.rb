@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_16_171441) do
+ActiveRecord::Schema.define(version: 2021_07_26_164518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -69,6 +69,11 @@ ActiveRecord::Schema.define(version: 2020_07_16_171441) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "devices", force: :cascade do |t|
+    t.string "description"
+    t.integer "os"
+  end
+
   create_table "exception_hunter_error_groups", force: :cascade do |t|
     t.string "error_class_name", null: false
     t.string "message"
@@ -92,6 +97,12 @@ ActiveRecord::Schema.define(version: 2020_07_16_171441) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["error_group_id"], name: "index_exception_hunter_errors_on_error_group_id"
+  end
+
+  create_table "sensors", force: :cascade do |t|
+    t.bigint "device_id"
+    t.string "description"
+    t.index ["device_id"], name: "index_sensors_on_device_id"
   end
 
   create_table "settings", force: :cascade do |t|
