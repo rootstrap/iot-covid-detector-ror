@@ -12,4 +12,6 @@
 #
 class Sensor < ApplicationRecord
   belongs_to :device
+
+  has_many :measures, dependent: :destroy
 end
