@@ -18,7 +18,7 @@
 #
 FactoryBot.define do
   factory :sensor do
-    device { create(device) }
+    device
     description { Faker::Lorem.sentence }
     external_id { rand(10...100) }
   end
