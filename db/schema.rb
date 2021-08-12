@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_174826) do
+ActiveRecord::Schema.define(version: 2021_08_13_114619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_174826) do
   create_table "devices", force: :cascade do |t|
     t.string "description"
     t.integer "os"
+    t.string "name"
   end
 
   create_table "exception_hunter_error_groups", force: :cascade do |t|

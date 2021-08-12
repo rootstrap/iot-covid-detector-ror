@@ -5,6 +5,8 @@ class CreateDevices < ActiveRecord::Migration[6.0]
     create_table :devices do |t|
       t.string :description
       t.integer :os
+
+      t.timestamps
     end
   end
 end

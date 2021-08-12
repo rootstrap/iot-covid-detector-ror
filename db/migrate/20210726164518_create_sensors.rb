@@ -5,6 +5,8 @@ class CreateSensors < ActiveRecord::Migration[6.0]
     create_table :sensors do |t|
       t.belongs_to :device
       t.string :description
+
+      t.timestamps
     end
   end
 end
