@@ -9,6 +9,7 @@ const char *mqtt_server = 'mqtt_server';
 WiFiClient espClient;
 PubSubClient client(espClient);
 
+string deviceId;
 long lastMsg = 0;
 int sensorValue;
 
@@ -18,7 +19,13 @@ void setup()
 
   setup_wifi();
 
+  getDeviceId();
   client.setServer(mqtt_server, 1883);
+}
+
+void getDeviceId()
+{
+  deviceId = String(ESP.getChipId(), HEX);
 }
 
 void setup_wifi()
@@ -38,7 +45,7 @@ void reconnect()
   {
     if (client.connect("ESP822Client-"))
     {
-      client.subcribe("covid19-detector");
+      client.subcribe("rs/covid-detector/measure");
     }
     delay(500);
   }
@@ -53,5 +60,6 @@ void loop()
   client.loop();
 
   sensorValue = analog_read(0);
-  client.publish("covid19-detector", sensorValue);
+  message = "{ device_id: " + deviceId + ", mesure: " + sensorValue + " }";
+  client.publish("rs/covid-detector/measure", message);
 }
