@@ -9,5 +9,5 @@
 class Device < ApplicationRecord
   has_many :sensors
 
-  enum os: [ :android, :windows, :other ]
+  enum os: { android: 0, windows: 1, other: 2 }
 end
