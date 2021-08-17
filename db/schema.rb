@@ -72,7 +72,12 @@ ActiveRecord::Schema.define(version: 2021_08_13_114619) do
   create_table "devices", force: :cascade do |t|
     t.string "description"
     t.integer "os"
+    t.integer "external_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "name"
+    t.index ["external_id"], name: "index_devices_on_external_id", unique: true
+    t.index ["name"], name: "index_devices_on_name", unique: true
   end
 
   create_table "exception_hunter_error_groups", force: :cascade do |t|
@@ -111,7 +116,11 @@ ActiveRecord::Schema.define(version: 2021_08_13_114619) do
   create_table "sensors", force: :cascade do |t|
     t.bigint "device_id"
     t.string "description"
+    t.integer "external_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["device_id"], name: "index_sensors_on_device_id"
+    t.index ["external_id"], name: "index_sensors_on_external_id", unique: true
   end
 
   create_table "settings", force: :cascade do |t|

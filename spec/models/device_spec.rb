@@ -7,7 +7,15 @@
 #  id          :bigint           not null, primary key
 #  description :string
 #  os          :integer
+#  external_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #  name        :string
+#
+# Indexes
+#
+#  index_devices_on_external_id  (external_id) UNIQUE
+#  index_devices_on_name         (name) UNIQUE
 #
 require 'rails_helper'
 
