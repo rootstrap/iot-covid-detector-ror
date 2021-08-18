@@ -2,15 +2,17 @@
 
 describe 'MeasureService' do
   describe '#new_measure' do
-    let(:value) { Faker::Number.between(100, 1000) }
+    let(:value) { Faker::Number.number(digits: 3) }
 
     context 'when the sensor exists' do
-      subject { MeasureService.new(sensor.id).new_measure(value) }
+      subject { MeasureService.new(device.external_id).new_measure(value) }
 
-      let(:sensor) { create(:sensor) }
+      let(:device) { create(:device) }
+      let!(:sensor) { create(:sensor, device: device) }
 
       it 'creates a measure' do
         expect { subject }.to change { sensor.measures.count }.from(0).to(1)
+        expect(sensor.measures.last.value).to eq(value)
       end
     end
 

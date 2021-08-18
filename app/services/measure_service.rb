@@ -1,8 +1,8 @@
 class MeasureService
   attr_reader :sensor
 
-  def initialize(sensor_id)
-    @sensor = Sensor.find_by(id: sensor_id)
+  def initialize(device_id)
+    @sensor = Device.find_by(external_id: device_id)&.sensors&.first
   end
 
   def new_measure(value)
