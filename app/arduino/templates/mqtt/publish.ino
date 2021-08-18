@@ -1,17 +1,20 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-const char *ssid = 'ssid';
-const char *password = 'password';
-
-const char *mqtt_server = 'mqtt_server';
-
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-string deviceId;
+const char *ssid = "...";
+const char *password = "...";
+const char *mqtt_server = "test.mosquitto.org";
+const char *mqtt_topic = "rs/covid-detector/measure";
+
+String deviceId;
 long lastMsg = 0;
 int sensorValue;
+char message[1000];
+char deviceIdCharArray[100];
+char measureCharArray[100];
 
 void setup()
 {
@@ -30,36 +33,52 @@ void getDeviceId()
 
 void setup_wifi()
 {
-  delay(1000);
+  delay(500);
   WiFi.begin(ssid, password);
-
+  Serial.println("Connecting to wifi");
   while (WiFi.status() != WL_CONNECTED)
   {
+    Serial.print(".");
     delay(500);
   }
+
+  Serial.println("Connected!");
 }
 
 void reconnect()
 {
+  String clientId = "ESP8266Client-";
+  Serial.println("Connecting to mqtt_server");
   while (!client.connected())
   {
-    if (client.connect("ESP822Client-"))
-    {
-      client.subcribe("rs/covid-detector/measure");
-    }
+    clientId += String(random(0xffff), HEX);
+    client.connect(clientId.c_str());
+    Serial.print(".");
     delay(500);
   }
+  Serial.println("Connected!");
 }
 
 void loop()
 {
   if (!client.connected())
   {
-    reconnect()
+    reconnect();
   }
   client.loop();
 
-  sensorValue = analog_read(0);
-  message = "{ device_id: " + deviceId + ", mesure: " + sensorValue + " }";
-  client.publish("rs/covid-detector/measure", message);
+  delay(5000);
+
+  sensorValue = analogRead(0);
+  deviceId.toCharArray(deviceIdCharArray, 100);
+  itoa(sensorValue, measureCharArray, 10);
+
+  strcpy(message, "{ device_id: ");
+  strcat(message, deviceIdCharArray);
+  strcat(message, ", mesure: ");
+  strcat(message, measureCharArray);
+  strcat(message, " }");
+
+  client.publish(mqtt_topic, message);
+  Serial.println(message);
 }
