@@ -75,7 +75,7 @@ void loop()
 
   strcpy(message, "{ device_id: ");
   strcat(message, deviceIdCharArray);
-  strcat(message, ", mesure: ");
+  strcat(message, ", measure: ");
   strcat(message, measureCharArray);
   strcat(message, " }");
 
