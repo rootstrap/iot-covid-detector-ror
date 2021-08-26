@@ -6,7 +6,7 @@ In order to check any needed configuration or to setup any required tool, go and
 
 ## Diagram 
 
-![image](https://user-images.githubusercontent.com/18124952/127056636-49e6142c-230a-4050-aa80-1e74c8c4ea22.png)
+![IOT Diagram](https://user-images.githubusercontent.com/18124952/129959634-e23d5ebb-7230-4ef3-b108-0bad7296952e.png)
 
 
 [<img src="https://s3-us-west-1.amazonaws.com/rootstrap.com/img/rs.png" width="100"/>](http://www.rootstrap.com)
