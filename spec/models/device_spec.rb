@@ -7,7 +7,7 @@
 #  id          :bigint           not null, primary key
 #  description :string
 #  os          :integer
-#  external_id :integer
+#  external_id :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  name        :string
