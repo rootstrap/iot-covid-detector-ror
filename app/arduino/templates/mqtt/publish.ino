@@ -35,7 +35,8 @@ void setup_wifi()
 {
   delay(500);
   WiFi.begin(ssid, password);
-  Serial.println("Connecting to wifi");
+  Serial.println("Connecting to WiFi");
+
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.print(".");
@@ -49,6 +50,7 @@ void reconnect()
 {
   String clientId = "ESP8266Client-";
   Serial.println("Connecting to mqtt_server");
+
   while (!client.connected())
   {
     clientId += String(random(0xffff), HEX);
@@ -56,6 +58,7 @@ void reconnect()
     Serial.print(".");
     delay(500);
   }
+
   Serial.println("Connected!");
 }
 
@@ -73,11 +76,11 @@ void loop()
   deviceId.toCharArray(deviceIdCharArray, 100);
   itoa(sensorValue, measureCharArray, 10);
 
-  strcpy(message, "{ device_id: ");
+  strcpy(message, "{ 'device_id': '");
   strcat(message, deviceIdCharArray);
-  strcat(message, ", measure: ");
+  strcat(message, "', 'value': '");
   strcat(message, measureCharArray);
-  strcat(message, " }");
+  strcat(message, "' }");
 
   client.publish(mqtt_topic, message);
   Serial.println(message);
