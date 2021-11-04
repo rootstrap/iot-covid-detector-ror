@@ -10,4 +10,12 @@ ActiveAdmin.register Sensor do
 
     f.actions
   end
+
+  show do
+    default_main_content
+
+    panel 'Measures' do
+      line_chart Sensor.find(params[:id]).measures.group_by_minute(:created_at).average(:value)
+    end
+  end
 end
