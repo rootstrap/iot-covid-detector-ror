@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   ExceptionHunter.routes(self)
 
+  root to: 'admin/dashboard#index'
+
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       get :status, to: 'api#status'
