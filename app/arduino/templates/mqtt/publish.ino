@@ -8,6 +8,7 @@ const char *ssid = "...";
 const char *password = "...";
 const char *mqtt_server = "test.mosquitto.org";
 const char *mqtt_topic = "rs/covid-detector/measure";
+const char *mqtt_commands_topic = "rs/covid-detector/command";
 
 String deviceId;
 long lastMsg = 0;
@@ -24,6 +25,7 @@ void setup()
 
   getDeviceId();
   client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
 }
 
 void getDeviceId()
@@ -48,18 +50,33 @@ void setup_wifi()
 
 void reconnect()
 {
-  String clientId = "ESP8266Client-";
   Serial.println("Connecting to mqtt_server");
 
   while (!client.connected())
   {
+    String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
-    client.connect(clientId.c_str());
+    if (client.connect(clientId.c_str())) {
+      Serial.println("Connected!");
+      client.subscribe(mqtt_commands_topic);
+    }
     Serial.print(".");
     delay(500);
   }
 
-  Serial.println("Connected!");
+}
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String commandMessage;
+
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+    commandMessage += (char)payload[i];
+  }
+  Serial.println();
 }
 
 void loop()
